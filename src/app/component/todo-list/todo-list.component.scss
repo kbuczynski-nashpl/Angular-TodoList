@@ -1,0 +1,26 @@
+.todo-list {
+  font-size: 22px;
+  line-height: 24px;
+
+  .todo-check-all {
+    font-size: 16px;
+    line-height: 18px;
+  }
+
+  .remove-item {
+    cursor: pointer;
+  }
+
+  .todo-item-label.completed {
+    text-decoration: line-through;
+  }
+
+  .btn.active {
+    background-color: green !important;
+    text-decoration: underline;
+  }
+
+  .btn {
+    font-weight: bold;
+  }
+}

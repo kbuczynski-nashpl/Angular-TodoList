@@ -1,0 +1,88 @@
+<div class="todo-list">
+  <div class="row col mt-5 mb-3">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="What needs to be done" aria-label="Recipient's username"
+             aria-describedby="button-addon"
+             [(ngModel)]="todoTitle"
+             (keyup.enter)="addTodo()">
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="button" id="button-addon"
+                (click)="addTodo()"
+        >Add
+        </button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col row todo-check-all">
+      <div class="col-2">
+        <input id="checkAll" type="checkbox" (change)="checkAllTodos()">
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-12 mt-1 mb-2" *ngFor="let todo of todoFilter()" @fade>
+      <div class="row todo-item-left">
+        <div class="col-1">
+          <input type="checkbox"
+                 id="checkbox-todo-list-{{todo.id}}"
+                 [(ngModel)]="todo.completed"
+          >
+        </div>
+        <div class="col">
+          <label class="todo-item-label"
+                 for="checkbox-todo-list-{{todo.id}}"
+                 [ngClass]="{'completed' : todo.completed}"
+                 (dblclick)="editTodo(todo)"
+                 *ngIf="!todo.editing"
+          >
+            {{todo.title}}
+          </label>
+          <input type="text" class="todo-item-edit"
+                 [(ngModel)]="todo.title"
+                 *ngIf="todo.editing"
+                 (blur)="doneEditing(todo)"
+                 (keyup.enter)="doneEditing(todo)"
+                 (keyup.escape)="cancelEdit(todo)"
+                 autofocus>
+        </div>
+        <div class="col-1">
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteToDo(todo.id)">&times;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col text-right">
+      {{remaining()}} items left
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary btn-sm"
+                [ngClass]="{'active': filter === 'all'}"
+                (click)="filter='all'"
+        >All
+        </button>
+        <button type="button" class="btn btn-primary btn-sm"
+                [ngClass]="{'active': filter === 'active'}"
+                (click)="filter='active'"
+        >Active
+        </button>
+        <button type="button" class="btn btn-primary btn-sm"
+                [ngClass]="{'active': filter === 'completed'}"
+                (click)="filter='completed'"
+        >Completed
+        </button>
+      </div>
+    </div>
+    <div class="col text-right" *ngIf="atLeastOneCompleted()">
+      <button class="btn btn-sm btn-warning" (click)="clearCompleted()">Clear Completed</button>
+    </div>
+  </div>
+</div>
